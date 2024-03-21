@@ -6,7 +6,7 @@
 /*   By: ebellini <ebellini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:17:22 by ebellini          #+#    #+#             */
-/*   Updated: 2024/03/21 10:17:09 by ebellini         ###   ########.fr       */
+/*   Updated: 2024/03/21 13:30:06 by ebellini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,16 @@ void	start_banner(int pid)
 											\n\n");
 }
 
+void	stamp_char(char *c)
+{
+	ft_printf("%c", *c);
+	if (*c == '\0')
+	{
+		*c = 0;
+		ft_printf("\n");
+	}
+}
+
 void	handle_signal(int sig, siginfo_t *info, void *context)
 {
 	static int	pid_client;
@@ -36,7 +46,6 @@ void	handle_signal(int sig, siginfo_t *info, void *context)
 	static char	c;
 
 	(void)context;
-	pid_client = 0;
 	if (!pid_client)
 		pid_client = info->si_pid;
 	if (pid_client != info->si_pid)
@@ -45,17 +54,14 @@ void	handle_signal(int sig, siginfo_t *info, void *context)
 		bit = 0;
 		c = 0;
 	}
-	if (sig == SIGUSR1)
-		c = c | sig;
+	c |= (sig == SIGUSR1);
 	if (++bit == 8)
 	{
-		ft_printf("%c", c);
-		if (c == '\0')
-			c = 0;
+		stamp_char(&c);
 		bit = 0;
 	}
 	c <<= 1;
-	usleep(84);
+	usleep(200);
 }
 
 int	main(void)

@@ -6,11 +6,17 @@
 /*   By: ebellini <ebellini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:18:27 by ebellini          #+#    #+#             */
-/*   Updated: 2024/03/21 10:26:53 by ebellini         ###   ########.fr       */
+/*   Updated: 2024/03/21 13:29:47 by ebellini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
+
+void	error_message(void)
+{
+	ft_printf("ERROR - check the input: \"./client serverPID message\"\n");
+	exit(EXIT_FAILURE);
+}
 
 void	conv_char_bin(char byte, int server_pid)
 {
@@ -22,44 +28,49 @@ void	conv_char_bin(char byte, int server_pid)
 		if (byte & 128)
 		{
 			if (kill(server_pid, SIGUSR1) == -1)
-				exit(EXIT_FAILURE);
+				error_message();
 		}
 		else
 		{
 			if (kill(server_pid, SIGUSR2) == -1)
-				exit(EXIT_FAILURE);
+				error_message();
 		}
 		byte = byte << 1;
 		bit++;
-		pause();
-		usleep(84);
+		usleep(200);
 	}
 }
 
 void	sent_message(char *message, int server_pid)
 {
-	while (*message)
+	int	i;
+
+	i = 0;
+	while (message[i])
 	{
-		conv_char_bin(*message, server_pid);
-		message++;
+		conv_char_bin(message[i], server_pid);
+		i++;
 	}
 	conv_char_bin('\0', server_pid);
 }
 
 int	main(int argc, char **argv)
 {
-	struct sigaction	sig_act;
+	int	pid_server;
 
-	sig_act.sa_handler = SIG_DFL;
-	sigemptyset(&sig_act.sa_mask);
+	pid_server = 0;
 	if (argc == 3)
 	{
-		sigaction(SIGUSR1, &sig_act, 0);
-		sigaction(SIGUSR2, &sig_act, 0);
-		sent_message(argv[2], ft_atoi(argv[1]));
-		ft_printf("The message has been sent!\n");
+		pid_server = ft_atoi(argv[1]);
+		if (pid_server > 0)
+		{
+			sent_message(argv[2], pid_server);
+			ft_printf("The message has been sent!\n");
+		}
+		else
+			error_message();
 	}
 	else
-		ft_printf("ERROR - check the input: \"./client serverPID message\"\n");
+		error_message();
 	return (0);
 }
