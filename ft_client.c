@@ -6,7 +6,7 @@
 /*   By: ebellini <ebellini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:18:27 by ebellini          #+#    #+#             */
-/*   Updated: 2024/03/21 13:45:56 by ebellini         ###   ########.fr       */
+/*   Updated: 2024/03/21 13:53:04 by ebellini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	sent_message(char *message, int server_pid)
 
 int	main(int argc, char **argv)
 {
-	int	pid_server;
+	int		pid_server;
 	char	*message;
 
 	pid_server = 0;
