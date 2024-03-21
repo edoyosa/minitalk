@@ -6,7 +6,7 @@
 /*   By: ebellini <ebellini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:18:27 by ebellini          #+#    #+#             */
-/*   Updated: 2024/03/21 01:12:14 by ebellini         ###   ########.fr       */
+/*   Updated: 2024/03/21 09:19:11 by ebellini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	conv_char_bin(char byte, int server_pid)
 		usleep(84);
 	}
 }
+
 void	sent_message(char *message, int server_pid)
 {
 	while (*message)
@@ -44,6 +45,7 @@ void	sent_message(char *message, int server_pid)
 	}
 	conv_char_bin('\0', server_pid);
 }
+
 int	main(int argc, char **argv)
 {
 	struct sigaction	sig_act;
