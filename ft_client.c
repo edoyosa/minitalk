@@ -6,11 +6,11 @@
 /*   By: ebellini <ebellini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:18:27 by ebellini          #+#    #+#             */
-/*   Updated: 2024/03/21 09:19:11 by ebellini         ###   ########.fr       */
+/*   Updated: 2024/03/21 10:26:53 by ebellini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "libft/libft.h"
 
 void	conv_char_bin(char byte, int server_pid)
 {

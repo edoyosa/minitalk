@@ -6,7 +6,7 @@
 /*   By: ebellini <ebellini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:57:30 by ebellini          #+#    #+#             */
-/*   Updated: 2024/03/20 23:58:20 by ebellini         ###   ########.fr       */
+/*   Updated: 2024/03/21 09:46:36 by ebellini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <stdint.h>
 # include <limits.h>
+# include <signal.h>
 
 int	ft_printf(const char *str, ...);
 int	ft_void_value(void *ptr);
