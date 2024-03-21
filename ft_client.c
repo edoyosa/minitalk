@@ -6,7 +6,7 @@
 /*   By: ebellini <ebellini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:18:27 by ebellini          #+#    #+#             */
-/*   Updated: 2024/03/21 13:29:47 by ebellini         ###   ########.fr       */
+/*   Updated: 2024/03/21 13:45:56 by ebellini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	conv_char_bin(char byte, int server_pid)
 		}
 		byte = byte << 1;
 		bit++;
-		usleep(200);
+		usleep(300);
 	}
 }
 
@@ -57,14 +57,16 @@ void	sent_message(char *message, int server_pid)
 int	main(int argc, char **argv)
 {
 	int	pid_server;
+	char	*message;
 
 	pid_server = 0;
+	message = argv[2];
 	if (argc == 3)
 	{
 		pid_server = ft_atoi(argv[1]);
 		if (pid_server > 0)
 		{
-			sent_message(argv[2], pid_server);
+			sent_message(message, pid_server);
 			ft_printf("The message has been sent!\n");
 		}
 		else

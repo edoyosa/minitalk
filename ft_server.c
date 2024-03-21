@@ -6,7 +6,7 @@
 /*   By: ebellini <ebellini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:17:22 by ebellini          #+#    #+#             */
-/*   Updated: 2024/03/21 13:30:06 by ebellini         ###   ########.fr       */
+/*   Updated: 2024/03/21 13:47:55 by ebellini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	handle_signal(int sig, siginfo_t *info, void *context)
 		bit = 0;
 	}
 	c <<= 1;
-	usleep(200);
 }
 
 int	main(void)
