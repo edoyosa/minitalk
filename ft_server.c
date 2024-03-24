@@ -6,11 +6,17 @@
 /*   By: ebellini <ebellini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:17:22 by ebellini          #+#    #+#             */
-/*   Updated: 2024/03/24 11:18:13 by ebellini         ###   ########.fr       */
+/*   Updated: 2024/03/24 13:28:47 by ebellini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
+
+void	error_message(void)
+{
+	ft_printf("ERROR - check the input: \"./client serverPID message\"\n");
+	exit(EXIT_FAILURE);
+}
 
 void	start_banner(int pid)
 {
@@ -29,14 +35,18 @@ void	start_banner(int pid)
 											\n\n");
 }
 
-void	stamp_char(char *c)
+void	stamp_char(char *c, int *bit, int *pid_client)
 {
 	ft_printf("%c", *c);
 	if (*c == '\0')
 	{
+		ft_printf("\n PID CLIENT: %d \n", *pid_client);
 		*c = 0;
-		ft_printf("\n");
+		if (kill(*pid_client, SIGUSR1) == -1)
+			error_message();
 	}
+	else
+		*bit = 0;
 }
 
 void	handle_signal(int sig, siginfo_t *info, void *context)
@@ -56,12 +66,11 @@ void	handle_signal(int sig, siginfo_t *info, void *context)
 	}
 	c |= (sig == SIGUSR1);
 	if (++bit == 8)
-	{
-		stamp_char(&c);
-		bit = 0;
-	}
+		stamp_char(&c, &bit, &pid_client);
 	c <<= 1;
-	usleep(300);
+	usleep(100);
+	if (kill(pid_client, SIGUSR2) == -1)
+		error_message();
 }
 
 int	main(void)

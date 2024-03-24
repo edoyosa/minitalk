@@ -6,7 +6,7 @@
 /*   By: ebellini <ebellini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:18:27 by ebellini          #+#    #+#             */
-/*   Updated: 2024/03/24 11:25:07 by ebellini         ###   ########.fr       */
+/*   Updated: 2024/03/24 13:24:26 by ebellini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	conversion(unsigned char byte, int server_pid)
 		}
 		byte = byte << 1;
 		bit++;
-		usleep(300);
+		pause();
+		usleep(100);
 	}
 }
 
@@ -54,10 +55,20 @@ void	sent_message(char *message, int server_pid)
 	conversion('\0', server_pid);
 }
 
+void	handle_signal(int sig)
+{
+	if (sig == SIGUSR1)
+	{
+		ft_printf("The message has been sent without errors!\n");
+		exit(EXIT_SUCCESS);
+	}
+}
+
 int	main(int argc, char **argv)
 {
-	int		pid_server;
-	char	*message;
+	int					pid_server;
+	char				*message;
+	struct sigaction	sig_act;
 
 	pid_server = 0;
 	message = argv[2];
@@ -66,8 +77,12 @@ int	main(int argc, char **argv)
 		pid_server = ft_atoi(argv[1]);
 		if (pid_server > 0)
 		{
+			sig_act.sa_handler = &handle_signal;
+			sigemptyset(&sig_act.sa_mask);
+			ft_printf("PID CLIENT: %d\n", getpid());
+			sigaction(SIGUSR1, &sig_act, 0);
+			sigaction(SIGUSR2, &sig_act, 0);
 			sent_message(message, pid_server);
-			ft_printf("The message has been sent!\n");
 		}
 		else
 			error_message();
