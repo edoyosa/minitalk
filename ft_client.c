@@ -6,7 +6,7 @@
 /*   By: ebellini <ebellini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 23:18:27 by ebellini          #+#    #+#             */
-/*   Updated: 2024/03/21 13:53:04 by ebellini         ###   ########.fr       */
+/*   Updated: 2024/03/24 11:25:07 by ebellini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	error_message(void)
 	exit(EXIT_FAILURE);
 }
 
-void	conv_char_bin(char byte, int server_pid)
+void	conversion(unsigned char byte, int server_pid)
 {
 	int	bit;
 
@@ -48,10 +48,10 @@ void	sent_message(char *message, int server_pid)
 	i = 0;
 	while (message[i])
 	{
-		conv_char_bin(message[i], server_pid);
+		conversion(message[i], server_pid);
 		i++;
 	}
-	conv_char_bin('\0', server_pid);
+	conversion('\0', server_pid);
 }
 
 int	main(int argc, char **argv)
