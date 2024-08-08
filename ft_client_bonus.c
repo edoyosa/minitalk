@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_client.c                                        :+:      :+:    :+:   */
+/*   ft_client_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebellini <ebellini@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: ebellini <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/20 23:18:27 by ebellini          #+#    #+#             */
-/*   Updated: 2024/08/08 15:57:41 by ebellini         ###   ########.fr       */
+/*   Created: 2024/08/08 16:04:28 by ebellini          #+#    #+#             */
+/*   Updated: 2024/08/08 16:29:38 by ebellini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,14 @@ void	sent_message(char *message, int server_pid)
 	conversion('\0', server_pid);
 }
 
-void	handle_signal(int sig)
+void	handle_signal(int sig, siginfo_t *info, void *context)
 {
+	(void)context;
 	if (sig == SIGUSR1)
 	{
 		ft_printf("PID CLIENT: %d\n", getpid());
-		ft_printf("The message has been sent without errors!\n");
+		ft_printf("The message has been received by the server \
+(pid: %d) without errors!\n", info->si_pid);
 		exit(EXIT_SUCCESS);
 	}
 }
@@ -78,8 +80,9 @@ int	main(int argc, char **argv)
 		pid_server = ft_atoi(argv[1]);
 		if (pid_server > 0)
 		{
-			sig_act.sa_handler = &handle_signal;
+			sig_act.sa_sigaction = &handle_signal;
 			sigemptyset(&sig_act.sa_mask);
+			sig_act.sa_flags = SA_SIGINFO;
 			sigaction(SIGUSR1, &sig_act, 0);
 			sigaction(SIGUSR2, &sig_act, 0);
 			sent_message(message, pid_server);
